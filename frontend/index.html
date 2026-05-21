@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>SoilSense &mdash; Carbon &amp; Nitrogen Verifier</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1><span class="icon">&#127793;</span> SoilSense</h1>
+      <p class="subtitle">AI-Powered Soil Carbon &amp; Nitrogen Estimation for Smallholder Farmers</p>
+    </header>
+
+    <main>
+      <section id="capture-section" class="card">
+        <div class="section-header">
+          <h2>&#128248; Capture or Upload Soil Sample</h2>
+          <span class="badge">Step 1</span>
+        </div>
+        <div id="camera-container">
+          <video id="video" autoplay playsinline></video>
+          <canvas id="canvas" style="display:none"></canvas>
+          <div id="camera-placeholder" class="placeholder">
+            <div class="placeholder-icon">&#128248;</div>
+            <p>Camera feed will appear here</p>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button id="start-camera" class="btn secondary">&#128247; Open Camera</button>
+          <button id="capture-btn" class="btn primary" disabled>&#128247; Capture Photo</button>
+          <button id="upload-btn" class="btn secondary">&#128194; Upload Image</button>
+          <input type="file" id="file-input" accept="image/*" style="display:none" />
+        </div>
+        <div class="preview-row">
+          <div id="preview-container" style="display:none">
+            <img id="preview" alt="Captured soil" />
+            <button id="retake-btn" class="btn small">&#8635; Retake</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="location-section" class="card" style="display:none">
+        <div class="section-header">
+          <h2>&#127758; Location &amp; Calibration</h2>
+          <span class="badge">Step 2</span>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="lat-input">Latitude</label>
+            <input type="number" id="lat-input" step="any" placeholder="e.g. -1.286" />
+          </div>
+          <div class="form-group">
+            <label for="lon-input">Longitude</label>
+            <input type="number" id="lon-input" step="any" placeholder="e.g. 36.817" />
+          </div>
+          <button id="detect-location" class="btn small" title="Detect my location">&#127758; Detect</button>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="calibration-input">Calibration Factor <span class="hint">(1.0 = default)</span></label>
+            <input type="number" id="calibration-input" step="0.01" value="1.0" />
+          </div>
+        </div>
+        <button id="analyze-btn" class="btn primary large" disabled>&#128202; Analyze Soil</button>
+        <div id="loading" class="loading-spinner" style="display:none">
+          <div class="spinner"></div>
+          <p>Analyzing soil with computer vision &amp; satellite data&hellip;</p>
+        </div>
+      </section>
+
+      <section id="results-section" class="card" style="display:none">
+        <div class="section-header">
+          <h2>&#128200; Results Dashboard</h2>
+          <span class="badge">Results</span>
+        </div>
+        <div id="results-grid" class="results-grid">
+          <div class="result-card som">
+            <h3>Soil Organic Matter</h3>
+            <div class="result-value" id="som-value">--</div>
+            <div class="result-label" id="som-rating">--</div>
+          </div>
+          <div class="result-card carbon">
+            <h3>Carbon Stock</h3>
+            <div class="result-value" id="carbon-value">--</div>
+            <div class="result-label">% of soil mass</div>
+          </div>
+          <div class="result-card co2">
+            <h3>CO&#8322;e per Hectare</h3>
+            <div class="result-value" id="co2-value">--</div>
+            <div class="result-label">tonnes / ha</div>
+          </div>
+          <div class="result-card moisture">
+            <h3>Moisture Index</h3>
+            <div class="result-value" id="moisture-value">--</div>
+            <div class="result-label" id="moisture-label">--</div>
+          </div>
+          <div class="result-card texture">
+            <h3>Texture</h3>
+            <div class="result-value" id="texture-value">--</div>
+            <div class="result-label">Roughness index</div>
+          </div>
+          <div class="result-card biomass">
+            <h3>Biomass Density</h3>
+            <div class="result-value" id="biomass-value">--</div>
+            <div class="result-label">NDI index</div>
+          </div>
+        </div>
+
+        <div id="color-metrics" class="metrics-panel" style="display:none">
+          <h3>&#127912; Color Metrics</h3>
+          <div id="color-bars" class="color-bars"></div>
+        </div>
+
+        <div id="satellite-panel" class="metrics-panel" style="display:none">
+          <h3>&#128752; Satellite Verification</h3>
+          <div id="satellite-data" class="satellite-data"></div>
+        </div>
+
+        <div id="biome-panel" class="metrics-panel" style="display:none">
+          <h3>&#127757; Regional Context</h3>
+          <div id="biome-data" class="biome-data"></div>
+        </div>
+
+        <div class="btn-group">
+          <button id="new-test-btn" class="btn primary">&#128247; New Test</button>
+          <button id="download-report-btn" class="btn secondary">&#128196; Download Report</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>SoilSense &mdash; Open-source soil carbon verification for smallholder farmers</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

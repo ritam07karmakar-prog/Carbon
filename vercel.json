@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": null,
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 30,
+      "runtime": "vercel-python@3.0.8"
+    }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/index" }
+  ]
+}
